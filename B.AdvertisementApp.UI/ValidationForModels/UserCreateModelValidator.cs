@@ -22,7 +22,7 @@ namespace B.AdvertisementApp.UI.ValidationForModels
             {
                 x.FirstName,
                 x.UserName
-            }).Must(x=>CanNotFirstName(x.UserName,x.FirstName)).WithMessage("Kullanıcı adı, isminiz olamaz.").When(x=>x.UserName!=null && x.FirstName!=null);
+            }).Must(x=>CanNotFirstName(x.UserName,x.FirstName)).WithMessage("Kullanıcı adınız isminizi içermemeli.").When(x=>x.UserName!=null && x.FirstName!=null);
            
            
             

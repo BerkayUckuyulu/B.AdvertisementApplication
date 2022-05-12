@@ -14,6 +14,19 @@ namespace B.AdvertisementApp.DataAccess.Configurations
         public void Configure(EntityTypeBuilder<AppRole> builder)
         {
             builder.Property(x => x.Defination).HasMaxLength(300).IsRequired();
+            builder.HasData(new AppRole[]
+            {
+                new AppRole()
+                {
+                    Defination="Admin",
+                    Id=1
+                },
+                new AppRole()
+                {
+                    Defination="Member",
+                    Id=2
+                }
+            });
         }
     }
 }

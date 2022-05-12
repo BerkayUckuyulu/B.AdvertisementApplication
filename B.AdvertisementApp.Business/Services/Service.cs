@@ -40,6 +40,7 @@ namespace B.AdvertisementApp.Business.Services
             if (result.IsValid)
             {
                await _uow.GetRepository<T>().CreateAsync(_mapper.Map<T>(createDto));
+                await _uow.SaveChangesAsync();
                 return new Response<CreateDto>(ResponseType.Success, createDto);
             }
             else
@@ -82,6 +83,8 @@ namespace B.AdvertisementApp.Business.Services
             {
                 _uow.GetRepository<T>().Remove(data);
                 return new Response(ResponseType.Success,$"{id}'li data silindi. İşlem başarılı");
+                await _uow.SaveChangesAsync();
+
             }
         }
 
@@ -98,6 +101,8 @@ namespace B.AdvertisementApp.Business.Services
                 else
                 {
                     _uow.GetRepository<T>().Update((_mapper.Map<T>(updateDto)), unchangedData);
+                    await _uow.SaveChangesAsync();
+
                     return new Response<UpdateDto>(ResponseType.Success, updateDto);
                 }
 
