@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "_Layout";
+}
+@model List<AdvertisementListDto>
+
+<div class="container my-3">
+    <div class="accordion" id="accordionExample">
+        @foreach (var item in Model)
+        {
+            <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-@item.Id">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@item.Id" aria-expanded="@(item.Id==1)" aria-controls="collapse-@item.Id">
+                    @item.Title
+                </button>
+            </h2>
+            <div id="collapse-@item.Id" class="accordion-collapse collapse @(item.Id==0?"show":"")" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    @item.Description
+                    <div>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a href="#">Başvur </a>
+                            }
+                            else
+                            {
+                                <div class="alert alert-light text-center">
+                                    Başvuru yapabilmeniz için kayıt olmanız gerekmektedir.
+                                    <a href="#">Kayıt Ol</a>
+                                </div>
+                            }
+                        </div>
+                </div>
+            </div>
+        </div>
+        }
+        
+
+    </div>
+</div>
+
