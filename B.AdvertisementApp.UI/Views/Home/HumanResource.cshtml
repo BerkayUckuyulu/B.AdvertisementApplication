@@ -19,13 +19,16 @@
                     <div>
                             @if (User.Identity.IsAuthenticated)
                             {
-                                <a href="#">Başvur </a>
+                                <a asp-controller="Advertisement" asp-action="Send" asp-route-advertisementId="@item.Id">Başvur </a>
                             }
                             else
                             {
                                 <div class="alert alert-light text-center">
-                                    Başvuru yapabilmeniz için kayıt olmanız gerekmektedir.
-                                    <a href="#">Kayıt Ol</a>
+                                    Başvuru yapabilmeniz için giriş yapmanız gerekmektedir.
+                                    <a asp-action="SignIn" asp-controller="Account">Giriş Yap</a>
+                                    veya
+                                    <a asp-action="SignUp" asp-controller="Account">Kayıt Ol</a>
+
                                 </div>
                             }
                         </div>

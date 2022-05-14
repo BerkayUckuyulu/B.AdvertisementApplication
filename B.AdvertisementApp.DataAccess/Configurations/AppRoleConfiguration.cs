@@ -13,17 +13,17 @@ namespace B.AdvertisementApp.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<AppRole> builder)
         {
-            builder.Property(x => x.Defination).HasMaxLength(300).IsRequired();
+            builder.Property(x => x.Definition).HasMaxLength(300).IsRequired();
             builder.HasData(new AppRole[]
             {
                 new AppRole()
                 {
-                    Defination="Admin",
+                    Definition="Admin",
                     Id=1
                 },
                 new AppRole()
                 {
-                    Defination="Member",
+                    Definition="Member",
                     Id=2
                 }
             });

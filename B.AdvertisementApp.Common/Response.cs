@@ -25,6 +25,7 @@ namespace B.AdvertisementApp.Common
     {
         Success,
         ValidationError,
-        NotFound
+        NotFound,
+        
     }
 }
