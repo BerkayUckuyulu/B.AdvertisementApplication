@@ -53,5 +53,9 @@ namespace B.AdvertisementApp.Business.Services
                 return new Response<AdvertisementAppUserCreateDto>(advertisementAppUserCreateDto, result.ConvertToCustomValidationError());
             }
         }
+        public async Task GetList()
+        {
+             
+        }
     }
 }

@@ -27,6 +27,7 @@ namespace B.AdvertisementApp.Business.Services
         {
             var data= await _uow.GetRepository<Advertisement>().GetAllAsync(x => x.Status == true, x => x.CreatedDate, Common.Enums.OrderByType.DESC);
             var dtoList = _mapper.Map<List<AdvertisementListDto>>(data);
+            
             return new Response<List<AdvertisementListDto>>(ResponseType.Success, dtoList);
         }
     }
