@@ -15,7 +15,7 @@
             </h2>
             <div id="collapse-@item.Id" class="accordion-collapse collapse @(item.Id==0?"show":"")" aria-labelledby="heading-@item.Id" data-bs-parent="#accordionExample">
                 <div class="accordion-body">
-                    @item.Description
+                    @(Html.Raw(item.Description))
                     <div>
                             @if (User.Identity.IsAuthenticated)
                             {

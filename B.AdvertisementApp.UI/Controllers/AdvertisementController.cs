@@ -26,13 +26,13 @@ namespace B.AdvertisementApp.UI.Controllers
             return View();
         }
 
-        [Authorize(Roles ="Member")]
+        [Authorize(Roles = "Member")]
         public async Task<IActionResult> Send(int advertisementId)
         {
-            var userId =int.Parse((User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)).Value);
-            var userResponse =await _appUserService.GetByIdAsync<AppUserListDto>(userId);
+            var userId = int.Parse((User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier)).Value);
+            var userResponse = await _appUserService.GetByIdAsync<AppUserListDto>(userId);
 
-           
+
             ViewBag.GenderId = userResponse.Data.GenderId;
 
             var items = Enum.GetValues(typeof(MilitaryStatusType));
@@ -49,13 +49,13 @@ namespace B.AdvertisementApp.UI.Controllers
             }
 
             ViewBag.MilitaryStatus = new SelectList(list, "Id", "Definition");
-            
+
 
             return View(new AdvertisementAppUserCreateModel
             {
-                AdvertisementId= advertisementId,
-                AppUserId=userId,
-                
+                AdvertisementId = advertisementId,
+                AppUserId = userId,
+
             });
         }
         [Authorize(Roles = "Member")]
@@ -66,24 +66,24 @@ namespace B.AdvertisementApp.UI.Controllers
 
             if (advertisementAppUserCreateModel.CvFile != null)
             {
-                var fileName=Guid.NewGuid().ToString();
+                var fileName = Guid.NewGuid().ToString();
                 var extName = Path.GetExtension(advertisementAppUserCreateModel.CvFile.FileName);
-                string path =Path.Combine(Directory.GetCurrentDirectory(),"wwwroot","cvFiles",fileName+extName);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "cvFiles", fileName + extName);
                 var stream = new FileStream(path, FileMode.Create);
-                 await stream.CopyToAsync(stream);
+                await stream.CopyToAsync(stream);
                 dto.CvPath = path;
             }
 
             dto.AdvertisementAppUserStatusId = advertisementAppUserCreateModel.AdvertisementAppUserStatusId;
-            dto.AdvertisementId=advertisementAppUserCreateModel.AdvertisementId;
+            dto.AdvertisementId = advertisementAppUserCreateModel.AdvertisementId;
             dto.AppUserId = advertisementAppUserCreateModel.AppUserId;
             dto.EndDate = advertisementAppUserCreateModel.EndDate;
             dto.MilitaryStatusId = advertisementAppUserCreateModel.MilitaryStatusId;
             dto.WorkExperience = advertisementAppUserCreateModel.WorkExperience;
-                
 
-            var response=await _advertisementAppUserService.CreateAsync(dto);
-            if (response.ResponseType==Common.ResponseType.ValidationError)
+
+            var response = await _advertisementAppUserService.CreateAsync(dto);
+            if (response.ResponseType == Common.ResponseType.ValidationError)
             {
                 foreach (var item in response.ValidationErrors)
                 {
@@ -120,10 +120,33 @@ namespace B.AdvertisementApp.UI.Controllers
 
 
         }
-        [Authorize(Roles ="Admin")]
-        public IActionResult List()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> List()
         {
-            return View();
+            var list = await _advertisementAppUserService.GetList(AdvertisementAppUserStatusType.Başvuruldu);
+            return View(list);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SetStatus(int advertisementAppUserId, AdvertisementAppUserStatusType type)
+        {
+
+            await _advertisementAppUserService.SetStatusAsync(advertisementAppUserId, type);
+            return RedirectToAction("List");
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ApprovedList()
+        {
+            var list = await _advertisementAppUserService.GetList(AdvertisementAppUserStatusType.Mülakat);
+            return View(list);
+        }
+
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> RejectedList()
+        {
+            var list = await _advertisementAppUserService.GetList(AdvertisementAppUserStatusType.Olumsuz);
+            return View(list);
         }
     }
 }
